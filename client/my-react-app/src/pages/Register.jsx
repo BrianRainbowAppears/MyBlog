@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import apiClient from "../utils/api";
+
 
 export const Register = () => {
   const [inputs, setInputs] = useState({
@@ -19,7 +21,7 @@ export const Register = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      await axios.post('/auth/register', inputs)
+      await apiClient.post('/auth/register', inputs)
       navigate('/login')
     } catch(err) {
       setErr(err.response.data)
