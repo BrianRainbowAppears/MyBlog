@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import apiClient from "../utils/api";
-
+import {apiClient} from "../utils/api";
 
 export const Register = () => {
   const [inputs, setInputs] = useState({

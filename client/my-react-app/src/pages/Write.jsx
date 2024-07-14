@@ -1,10 +1,9 @@
-import axios from "axios";
 import moment from "moment";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import apiClient from "../utils/api";
+import { apiClient, uploadFile  } from "../utils/api";
 
 
 export const Write = () => {
@@ -18,10 +17,17 @@ export const Write = () => {
 
   const upload = async () => {
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await apiClient.post("/upload", formData);
-      return res.data;
+      // const formData = new FormData();
+      // console.log('file', file)
+      // formData.append("file", file);
+      // console.log('formData', formData);
+      // const res = await apiClient.post("/upload", formData, {
+      //   headers: { 'Content-Type': 'multipart/form-data' } // 确保设置了正确的 Content-Type 头
+      // });
+      // console.log('res', res);
+      // return res.data;
+      const imgUrl = await uploadFile(file)
+      return imgUrl
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +37,8 @@ export const Write = () => {
     // 阻止默認
     e.preventDefault()
     const imgUrl = await upload()
-
+    console.log('imgUrl', imgUrl);
+    debugger
     try {
       state ? await apiClient.put(`/posts/${state.id}`, {
         title,
@@ -47,7 +54,7 @@ export const Write = () => {
       })
       navigate('/')
     } catch (err) {
-      console.log(err);
+      console.log('err', err);
     }
   }
 
@@ -79,12 +86,12 @@ export const Write = () => {
             <b>Visibility: </b> Publish
           </span>
           <input style={{ display: "none" }} type="file" id="file" name="" onChange={(e) => {
+            console.log('e.target.files[0]', e.target.files[0]);
               setFile(e.target.files[0])
             }} />
           <label
             className="file"
             htmlFor="file"
-            
           >
             Upload Image
           </label>

@@ -1,8 +1,5 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import apiClient from "../utils/api";
-
-
+import {apiClient} from "../utils/api";
 
 export const Menu = ({cat}) => {
   const [posts, setPosts] = useState([])
