@@ -5,6 +5,7 @@ import axios from 'axios';
 // 从环境变量中获取 API 基本 URL
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8800/api/';
 const imgUploadUrl = 'http://144.202.124.215:8800/api/';
+const imgPrefixUrl = 'http://144.202.124.215/uploads/';
 
 // 创建 axios 实例
 const apiClient = axios.create({
@@ -108,4 +109,4 @@ const uploadFile = async (file) => {
   }
 };
 
-export { apiClient, uploadFile };
+export { apiClient, uploadFile, imgPrefixUrl};

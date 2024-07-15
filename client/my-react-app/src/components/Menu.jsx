@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {apiClient} from "../utils/api";
+import { apiClient, imgPrefixUrl } from "../utils/api";
 
 export const Menu = ({cat}) => {
   const [posts, setPosts] = useState([])
@@ -23,7 +23,7 @@ export const Menu = ({cat}) => {
             {posts && posts.map((post) => {
                 return (
                     <div className="post" key={post.id}>
-                        <img src={`../upload/${post.img}`} alt="" />
+                        <img src={`${imgPrefixUrl}${post.img}`} alt="" />
                         <h2>{post.title}</h2>
                         <button>阅读详情</button>
                     </div>

@@ -7,7 +7,7 @@ import { Menu } from '../components/Menu'
 import moment from 'moment'
 import { AuthContext } from '../context/authContext'
 import DOMPurify from "dompurify";
-import {apiClient} from "../utils/api";
+import { apiClient, imgPrefixUrl } from "../utils/api";
 
 
 export const Single = () => {
@@ -32,11 +32,14 @@ export const Single = () => {
   }, [postId])
 
   const handleDelete = async() => {
-    try {
-      await apiClient.delete(`/posts/${postId}`)
-      navigete('/')
-    } catch (err) {
-      console.log(err);
+    // 添加是否确认删除弹窗
+    if (window.confirm('确认要删除该文章吗？')) {
+      try {
+        await apiClient.delete(`/posts/${postId}`)
+        navigete('/')
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
   console.log({currentUser, post});
@@ -45,7 +48,7 @@ export const Single = () => {
     <div className='single'>
       <div className="content">
         <div className="img">
-          <img src={`../upload/${post.img}`} alt="" />
+          <img src={`${imgPrefixUrl}${post.img}`} alt="" />
         </div>
         <div className="user">
           {post.userImg && <img src={post.userImg} alt="" />}
