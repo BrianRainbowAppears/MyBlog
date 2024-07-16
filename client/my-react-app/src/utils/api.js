@@ -1,5 +1,3 @@
-// src/api.js
-
 import axios from 'axios';
 
 // 从环境变量中获取 API 基本 URL
@@ -47,13 +45,21 @@ apiClient.interceptors.request.use(
 // 添加响应拦截器
 apiClient.interceptors.response.use(
   response => {
+    console.log('response', response);
     // 对响应数据做一些处理
     return response;
   },
   error => {
     // 对响应错误做一些处理
+    console.log('error', error);
     if (error.response) {
       console.error(`API Error: ${error.response.status} ${error.response.data.message}`);
+      // token 失效，自动登出并返回登录页
+      if (error.response.status === 401) {
+        apiClient.post("/auth/logout");
+        localStorage.removeItem("user");
+        window.location.href = '/login'; // 重定向到登录页
+      }
     } else {
       console.error('API Error:', error.message);
     }

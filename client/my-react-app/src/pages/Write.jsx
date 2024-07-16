@@ -38,7 +38,6 @@ export const Write = () => {
     e.preventDefault()
     const imgUrl = await upload()
     console.log('imgUrl', imgUrl);
-    debugger
     try {
       state ? await apiClient.put(`/posts/${state.id}`, {
         title,

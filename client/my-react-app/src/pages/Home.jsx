@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {apiClient} from "../utils/api";
 import { imgPrefixUrl } from '../utils/api'
 
 export const Home = () => {
-
   const [posts, setPosts] = useState([])
 
   const cat = useLocation().search
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async() => {
@@ -20,6 +20,10 @@ export const Home = () => {
     }
     fetchData()
   }, [cat])
+
+  const handleClick = (post) => {
+    navigate(`/post/${post.id}`);
+  };
 
   const renderHomeArtical = () => {
     return (
@@ -35,7 +39,9 @@ export const Home = () => {
                   <h1>{post.title}</h1>
                 </Link>
                 <p>{getText(post.desc)}</p>
-                <button>阅读详情</button>
+                <button onClick={() => {
+                  handleClick(post)
+                }}>阅读详情</button>
               </div>
             </div>
           )

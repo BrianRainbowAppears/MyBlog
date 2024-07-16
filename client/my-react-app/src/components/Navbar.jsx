@@ -18,22 +18,22 @@ export const Navbar = () => {
         </div>
         <div className="links">
           <Link className='link' to='/?cat=art'>
-            <h6>ART</h6>
+            <h6>艺术</h6>
           </Link>
           <Link className='link' to='/?cat=science'>
-            <h6>SCIENCE</h6>
+            <h6>科学</h6>
           </Link>
           <Link className='link' to='/?cat=technology'>
-            <h6>TECHNOLOGY</h6>
+            <h6>技术</h6>
           </Link>
           <Link className='link' to='/?cat=design'>
-            <h6>DESIGN</h6>
+            <h6>设计</h6>
           </Link>
           <Link className='link' to='/?cat=cinema'>
-            <h6>CINEMA</h6>
+            <h6>电影</h6>
           </Link>
           <Link className='link' to='/?cat=food'>
-            <h6>FOOD</h6>
+            <h6>食物</h6>
           </Link>
           <span>{currentUser?.username}</span>
           {currentUser ? <span onClick={logout}>退出登录</span> : <Link className='link' to={'/login'}>登录</Link> }
