@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { apiClient, uploadFile  } from "../utils/api";
+import { imgPrefixUrl } from '../utils/api'
 
 
 export const Write = () => {
@@ -12,21 +13,14 @@ export const Write = () => {
   const [title, setTitle] = useState(state?.title || "");
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
+  const [uploadedImgUrl, setUploadedImgUrl] = useState('')
   const navigate = useNavigate()
   // console.log(state);
 
-  const upload = async () => {
+  const upload = async (newFile) => {
     try {
-      // const formData = new FormData();
-      // console.log('file', file)
-      // formData.append("file", file);
-      // console.log('formData', formData);
-      // const res = await apiClient.post("/upload", formData, {
-      //   headers: { 'Content-Type': 'multipart/form-data' } // 确保设置了正确的 Content-Type 头
-      // });
-      // console.log('res', res);
-      // return res.data;
-      const imgUrl = await uploadFile(file)
+      const imgUrl = await uploadFile(newFile)
+      setUploadedImgUrl(imgUrl)
       return imgUrl
     } catch (err) {
       console.log(err);
@@ -36,19 +30,19 @@ export const Write = () => {
   const handleClick = async(e) => {
     // 阻止默認
     e.preventDefault()
-    const imgUrl = await upload()
-    console.log('imgUrl', imgUrl);
+    // const imgUrl = await upload()
+    // console.log('imgUrl', imgUrl);
     try {
       state ? await apiClient.put(`/posts/${state.id}`, {
         title,
         desc: value,
         cat,
-        img: file ? imgUrl : '',
+        img: uploadedImgUrl,
       }) : await apiClient.post(`/posts`, {
         title,
         desc: value,
         cat,
-        img: file ? imgUrl : '',
+        img: uploadedImgUrl,
         date: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
       })
       navigate('/')
@@ -77,27 +71,29 @@ export const Write = () => {
       </div>
       <div className="menu">
         <div className="item">
-          <h1>Publish</h1>
+          <h1>状态栏</h1>
           <span>
-            <b>Status: </b> Draft
+            <b>状态: </b> Draft
           </span>
           <span>
-            <b>Visibility: </b> Publish
+            <b>可用的: </b> Publish
           </span>
           <input style={{ display: "none" }} type="file" id="file" name="" onChange={(e) => {
             console.log('e.target.files[0]', e.target.files[0]);
               setFile(e.target.files[0])
+              upload(e.target.files[0])
             }} />
           <label
             className="file"
             htmlFor="file"
           >
-            Upload Image
+            上传图片
           </label>
-          <div className="buttons">
-            <button>Save as a draft</button>
-            <button onClick={handleClick}>Publish</button>
-          </div>
+          {file && <img src={`${imgPrefixUrl}${uploadedImgUrl}`} alt="" style={{ width: '100px', height: '100px' }} />}
+          <di v className="buttons">
+            <button>保存到草稿箱</button>
+            <button onClick={handleClick}>发布</button>
+          </di>
         </div>
         <div className="item">
           <h1>Category</h1>

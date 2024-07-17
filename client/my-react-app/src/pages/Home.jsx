@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {apiClient} from "../utils/api";
 import { imgPrefixUrl } from '../utils/api'
+import Button from '@mui/material/Button';
+import './Home.css'
 
 export const Home = () => {
   const [posts, setPosts] = useState([])
@@ -21,7 +23,7 @@ export const Home = () => {
     fetchData()
   }, [cat])
 
-  const handleClick = (post) => {
+  const onPostClick = (post) => {
     navigate(`/post/${post.id}`);
   };
 
@@ -30,20 +32,24 @@ export const Home = () => {
       <div className='posts'>
         {posts.map((post) => {
           return (
-            <div key={post.id} className="post">
-              <div className="img">
-                <img src={`${imgPrefixUrl}${post.img}`} alt="" />
-              </div>
-              <div className="content">
-                <Link className='link' to={`/post/${post.id}`}>
-                  <h1>{post.title}</h1>
-                </Link>
-                <p>{getText(post.desc)}</p>
-                <button onClick={() => {
-                  handleClick(post)
-                }}>阅读详情</button>
-              </div>
+            <div key={post.id} className='post'>
+              <span className='postTitle' onClick={() => {onPostClick(post)}}>{post.title}</span>
+              <span className='postTime'>{post.date}</span>
             </div>
+            // <div key={post.id} className="post">
+            //   <div className="img">
+            //     <img src={`${imgPrefixUrl}${post.img}`} alt="" />
+            //   </div>
+            //   <div className="content">
+            //     <Link className='link' to={`/post/${post.id}`}>
+            //       <h1>{post.title}</h1>
+            //     </Link>
+            //     <p>{getText(post.desc)}</p>
+            //     <button onClick={() => {
+            //       handleClick(post)
+            //     }}>阅读详情</button>
+            //   </div>
+            // </div>
           )
         })}
       </div>
